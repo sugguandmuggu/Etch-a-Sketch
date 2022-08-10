@@ -2,19 +2,35 @@
 
 const container = document.createElement('div');
 const bigContainer = document.querySelector('.bigContainer');
+const sizeButton=document.querySelector('.sizeButton');
 
 //bigContainer.classList.add('bigContainer');
 //document.body.appendChild(bigContainer);
+sizeButton.addEventListener('click', ()=>{
+    promptSize();
+})
+
+let sqPerSide=16;
 
 
-container.setAttribute('style', 'padding:0; max-width:640px; max-height:640px; border: 20px solid rgba(60, 60, 60, 1); width:fit-content; height:fit-content; display:flex; flex-wrap:wrap; background:black; margin-left: auto; margin-right:auto;')
+
+function promptSize(){
+    sqPerSide = prompt("Enter the number of squares per side (Maximum limit is 100)");
+    if(sqPerSide>100){
+        sqPerSide=100;
+    }
+}
+
+container.setAttribute('style', 'padding:0; max-width:640px; max-height:640px; border: 20px solid rgba(60, 60, 60, 1); width:fit-content; height:fit-content; display:flex; flex-wrap:wrap; background:black; border-radius:5px;')
 bigContainer.appendChild(container);
 container.classList.add('container');
 
 
-let parameters = 640/16;
+let parameters = 640/sqPerSide;
 
-for(let i = 0; i<16*16; i++){
+//make function createGrid()
+
+for(let i = 0; i<sqPerSide*sqPerSide; i++){
     let square=document.createElement('div')
     square.setAttribute('style', `width:${parameters}px; height:${parameters}px; background:white; border:1px solid rgba(0,0,0,0.1); box-sizing:border-box; padding:0; margin:0;`);
     container.appendChild(square);
