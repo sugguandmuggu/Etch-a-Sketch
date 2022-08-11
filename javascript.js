@@ -28,6 +28,11 @@ rnbwButton.addEventListener('click', () => {
             container.classList.remove('shade');
             shading.textContent='Shading : Off';
         }
+        if(container.classList.contains('erase'))
+        {
+            container.classList.remove('erase');
+            eraser.textContent='Eraser : Off';
+        }
     }
 });
 
@@ -52,6 +57,17 @@ eraser.addEventListener('click', () => {
     else if(eraser.textContent === 'Eraser : Off'){
         eraser.textContent='Eraser : On';
         container.classList.add('erase');
+        if(container.classList.contains('rnbw'))
+        {
+            container.classList.remove('rnbw');
+            rnbwButton.textContent='Rainbow Mode : Off';
+        }
+
+        if(container.classList.contains('shade'))
+        {
+            container.classList.remove('shade');
+            shading.textContent='Shading : Off';
+        }
     }
 });
 
@@ -68,6 +84,11 @@ shading.addEventListener('click', () => {
         {
             container.classList.remove('rnbw');
             rnbwButton.textContent='Rainbow Mode : Off';
+        }
+        if(container.classList.contains('erase'))
+        {
+            container.classList.remove('erase');
+            eraser.textContent='Eraser : Off';
         }
     }
 });
