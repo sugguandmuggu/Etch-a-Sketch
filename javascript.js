@@ -6,6 +6,7 @@ const sizeButton=document.querySelector('.sizeButton');
 const rnbwButton = document.querySelector('.rnbwButton')
 const clear = document.querySelector('.clear');
 const lineBtn = document.querySelector('.lineBtn');
+const eraser = document.querySelector('.Eraser');
 
 //bigContainer.classList.add('bigContainer');
 //document.body.appendChild(bigContainer);
@@ -23,7 +24,7 @@ rnbwButton.addEventListener('click', () => {
         rnbwButton.textContent='Rainbow Mode : On';
         container.classList.add('rnbw');
     }
-})
+});
 
 lineBtn.addEventListener('click', () => {
     if(lineBtn.textContent === 'Grid Lines : On'){
@@ -35,11 +36,23 @@ lineBtn.addEventListener('click', () => {
         lineBtn.textContent='Grid Lines : On';
         toggleGridLinesOn();
     }
-})
+});
+
+eraser.addEventListener('click', () => {
+    if(eraser.textContent === 'Eraser : On'){
+        eraser.textContent='Eraser : Off';
+        container.classList.remove('erase');
+    }
+
+    else if(eraser.textContent === 'Eraser : Off'){
+        eraser.textContent='Eraser : On';
+        container.classList.add('erase');
+    }
+});
 
 clear.addEventListener('click', ()=>{
     cleanGrid();
-} )
+} );
 
 
 let sqPerSide=16;
@@ -65,10 +78,14 @@ function changeColor(sqId){
         let anotherSq=document.getElementById(`${sqId}`);
         anotherSq.style.backgroundColor= randomColor();
     }
-    
+    else if(container.classList.contains('erase')){
+        let anotherSq=document.getElementById(`${sqId}`);
+        anotherSq.style.backgroundColor= 'white';
+    }
     else{
         let anotherSq=document.getElementById(`${sqId}`);
         anotherSq.style.backgroundColor= 'black';
+        anotherSq.style.filter= 'brightness(100%)'
     }
 } 
 
@@ -82,9 +99,10 @@ function createGrid(){
     let parameters = 640/sqPerSide;
     for(let i = 0; i<sqPerSide*sqPerSide; i++){
         let square=document.createElement('div')
-        square.setAttribute('style', `width:${parameters}px; height:${parameters}px; background:white; border:1px solid rgba(0,0,0,0.1); box-sizing:border-box; padding:0; margin:0;`);
+        square.setAttribute('style', `width:${parameters}px; height:${parameters}px; background:white; box-sizing:border-box; padding:0; margin:0;`);
         container.appendChild(square);
         square.classList.add('sqClass');
+        square.classList.add('borderClass')
         square.setAttribute('id', `${i}`);
         
     }
@@ -145,8 +163,9 @@ function toggleGridLinesOff(){
     let parameters = 640/sqPerSide;
     const cleanSqs=document.querySelectorAll('.sqClass');
     cleanSqs.forEach((cleanSq => {
-        cleanSq.setAttribute('style', `width:${parameters}px; height:${parameters}px; background:white; border:none; box-sizing:border-box; padding:0; margin:0;`);
-    }))
+        //cleanSq.setAttribute('style', `width:${parameters}px; height:${parameters}px; background:white; border:none; box-sizing:border-box; padding:0; margin:0;`);
+        cleanSq.classList.remove('borderClass');
+    }));
     
 }
 
@@ -154,8 +173,9 @@ function toggleGridLinesOn(){
     let parameters = 640/sqPerSide;
     const cleanSqs=document.querySelectorAll('.sqClass');
     cleanSqs.forEach((cleanSq => {
-        cleanSq.setAttribute('style', `width:${parameters}px; height:${parameters}px; background:white; border:1px solid rgba(0,0,0,0.1); box-sizing:border-box; padding:0; margin:0;`);
-    }))
+        //cleanSq.setAttribute('style', `width:${parameters}px; height:${parameters}px; background:white; border:1px solid rgba(0,0,0,0.1); box-sizing:border-box; padding:0; margin:0;`);
+        cleanSq.classList.add('borderClass');
+    }));
     
 }
 

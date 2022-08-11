@@ -38,3 +38,7 @@ button{
     color: aqua;
     font-size: medium;
 }
+
+.borderClass{
+    border:1px solid rgba(0,0,0,0.1);
+}
