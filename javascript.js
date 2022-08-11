@@ -180,7 +180,7 @@ function cleanGrid(){
     
     const cleanSqs=document.querySelectorAll('.sqClass');
     cleanSqs.forEach((cleanSq => {
-        cleanSq.style.backgroundColor='white';
+        cleanSq.style.backgroundColor='hsl(0, 0%, 100%)';
     }))
     
 }
