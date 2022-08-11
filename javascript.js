@@ -10,10 +10,16 @@ const eraser = document.querySelector('.Eraser');
 const shading = document.querySelector('.shading');
 //bigContainer.classList.add('bigContainer');
 //document.body.appendChild(bigContainer);
+
+
+
+//Event to be fired when "Grid Size" button is clicked
 sizeButton.addEventListener('click', ()=>{
     promptSize();
 });
 
+
+//Event to be fired when "Rainbow Mode" button is clicked
 rnbwButton.addEventListener('click', () => {
     if(rnbwButton.textContent === 'Rainbow Mode : On'){
         rnbwButton.textContent='Rainbow Mode : Off';
@@ -23,6 +29,9 @@ rnbwButton.addEventListener('click', () => {
     else if(rnbwButton.textContent === 'Rainbow Mode : Off'){
         rnbwButton.textContent='Rainbow Mode : On';
         container.classList.add('rnbw');
+
+        //Below two if statements turn shading or eraser mode off 
+        // since they cannot be turned on simultaneously
         if(container.classList.contains('shade'))
         {
             container.classList.remove('shade');
@@ -36,6 +45,7 @@ rnbwButton.addEventListener('click', () => {
     }
 });
 
+//Event to be fired when "Grid Lines" button is clicked
 lineBtn.addEventListener('click', () => {
     if(lineBtn.textContent === 'Grid Lines : On'){
         lineBtn.textContent='Grid Lines : Off';
@@ -48,6 +58,8 @@ lineBtn.addEventListener('click', () => {
     }
 });
 
+
+//Event to be fired when "Eraser" button is clicked
 eraser.addEventListener('click', () => {
     if(eraser.textContent === 'Eraser : On'){
         eraser.textContent='Eraser : Off';
@@ -57,6 +69,8 @@ eraser.addEventListener('click', () => {
     else if(eraser.textContent === 'Eraser : Off'){
         eraser.textContent='Eraser : On';
         container.classList.add('erase');
+        //Below two if statements turn shading or rainbow mode off 
+        // since they cannot be turned on simultaneously
         if(container.classList.contains('rnbw'))
         {
             container.classList.remove('rnbw');
@@ -71,6 +85,7 @@ eraser.addEventListener('click', () => {
     }
 });
 
+//Event to be fired when "Shading" button is clicked
 shading.addEventListener('click', () => {
     if(shading.textContent === 'Shading : On'){
         shading.textContent='Shading : Off';
@@ -80,6 +95,9 @@ shading.addEventListener('click', () => {
     else if(shading.textContent === 'Shading : Off'){
         shading.textContent='Shading : On';
         container.classList.add('shade');
+
+        //Below two if statements turn rainbow or eraser mode off 
+        // since they cannot be turned on simultaneously
         if(container.classList.contains('rnbw'))
         {
             container.classList.remove('rnbw');
@@ -93,6 +111,7 @@ shading.addEventListener('click', () => {
     }
 });
 
+//Event to be fired when "Clear Grid" button is clicked
 clear.addEventListener('click', ()=>{
     cleanGrid();
 } );
@@ -101,7 +120,7 @@ clear.addEventListener('click', ()=>{
 let sqPerSide=16;
 
 
-
+//function to prompt user for number of squares per side in their grid. Limit is set to 100
 function promptSize(){
     sqPerSide = prompt("Enter the number of squares per side (Maximum limit is 100)", "16");
     if(sqPerSide>100){
@@ -111,10 +130,15 @@ function promptSize(){
     createGrid();
 }
 
+
+//adding several style rules to the grid and adding class 'container' as well
 container.setAttribute('style', 'padding:0; max-width:640px; max-height:640px; border: 20px solid rgba(60, 60, 60, 1); width:fit-content; height:fit-content; display:flex; flex-wrap:wrap; background:hsl(0, 0%, 0%); border-radius:5px;')
 bigContainer.appendChild(container);
 container.classList.add('container');
 
+
+// function to change color of a square in the grid 
+//depending on the current mode (shading, rainbow, erase or default(black))
 function changeColor(sqId){
     
     if(container.classList.contains('rnbw')){
@@ -136,12 +160,16 @@ function changeColor(sqId){
     }
 } 
 
+//function to remove all divs from the container.  Used to delete 
+//current squares in grid to make a new grid of different parameters
 function clearGrid(){
     while(container.firstChild){
         container.removeChild(container.lastChild)
     }
 }
 
+
+//Function to create a grid. Default grid is of 16x16 size
 function createGrid(){
     let parameters = 640/sqPerSide;
     for(let i = 0; i<sqPerSide*sqPerSide; i++){
@@ -156,6 +184,8 @@ function createGrid(){
     eventListeners();
 }
 
+
+//Event listeners for the mouse
 function eventListeners(){
     const sqClasses = document.querySelectorAll('.sqClass');
     sqClasses.forEach((aSquare) => aSquare.addEventListener('mousedown', () => {
@@ -191,21 +221,28 @@ function eventListeners(){
     }));
 }
 
+
+// function to return a random color for rainbow mode
 function randomColor() {
     // return "#" + Math.floor(Math.random()*16777215).toString(16);
     // this returns fewer colors but they are all nice and bright
     return `hsl(${Math.random() * 360}, 100%, 50%)`;
 }
 
+
+// function to turn the background of all squares in the 
+//grid back to white, basically like cleaning a canvas of 
+//all paint, while clearGrid() is akin to throwing away the canvas
 function cleanGrid(){
     
     const cleanSqs=document.querySelectorAll('.sqClass');
     cleanSqs.forEach((cleanSq => {
         cleanSq.style.backgroundColor='hsl(0, 0%, 100%)';
     }))
-    
 }
 
+
+//function that removes the grid lines
 function toggleGridLinesOff(){
     let parameters = 640/sqPerSide;
     const cleanSqs=document.querySelectorAll('.sqClass');
@@ -216,6 +253,7 @@ function toggleGridLinesOff(){
     
 }
 
+//function that adds grid lines
 function toggleGridLinesOn(){
     let parameters = 640/sqPerSide;
     const cleanSqs=document.querySelectorAll('.sqClass');
@@ -226,6 +264,8 @@ function toggleGridLinesOn(){
     
 }
 
+
+//function to convert rgb color values to hsl color values
 function rgbToHsl(rgb){
     let sep = rgb.indexOf(',') > -1 ? ',' : ' ';
     // Turn "rgb(r,g,b)" into [r,g,b]
@@ -253,6 +293,9 @@ function rgbToHsl(rgb){
     )`;
 }
 
+
+// function that decreases the lightness of a square by 10%
+// for each click or pass that is made on it with the mouse
 function decrementLightness(hsl){
     let sep = hsl.indexOf(',') > -1 ? ',' : ' ';
     // Turn "rgb(r,g,b)" into [r,g,b]
@@ -277,10 +320,6 @@ function decrementLightness(hsl){
 
     return `hsl(${h}, ${s}%, ${l}%)`
 }
-
-
-
-
 
 createGrid();
 
